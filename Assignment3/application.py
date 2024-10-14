@@ -31,6 +31,6 @@ print(f'Training Loss: {train_loss}')
 
 yhat_test = compute_yhat(Xtest, trained_weights)
 test_loss = compute_L(yhat_test, Ytest)
-print(f'Training Loss: {test_loss}')
+print(f'Testing Loss: {test_loss}')
 
 #########################################
