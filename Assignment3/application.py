@@ -22,7 +22,15 @@ Xtrain, Ytrain, Xtest, Ytest = X[::2], y[::2], X[1::2], y[1::2]
 
 #########################################
 ## INSERT YOUR CODE HERE
+trained_weights = train(Xtrain, Ytrain, alpha=0.01, n_epoch=1000)
+print(f'trained_weights (w) : {trained_weights}')
 
+yhat_train = compute_yhat(Xtrain, trained_weights)
+train_loss = compute_L(yhat_train, Ytrain)
+print(f'Training Loss: {train_loss}')
+
+yhat_test = compute_yhat(Xtest, trained_weights)
+test_loss = compute_L(yhat_test, Ytest)
+print(f'Training Loss: {test_loss}')
 
 #########################################
-
