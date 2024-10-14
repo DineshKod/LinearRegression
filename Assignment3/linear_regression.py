@@ -24,7 +24,14 @@ def compute_Phi(x,p):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
+    #phi1(x) + phi2(x).....phid(x)
+    #h w (x) = w 0 + w 1 * phi1(x1) + w 2 * phi2(x2) + ... + w d * phid(xd)
+    columns = []
+    for i in range(p):
+        column = x**i
+        columns.append(column)
+    Phi = np.column_stack(columns)
+    
 
 
     #########################################
@@ -44,7 +51,8 @@ def compute_yhat(Phi, w):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
+    # y hat or ŷ = h w (x) = w 0 + w 1 * phi1(x1) + w 2 * phi2(x2) + ... + w d * phid(xd)
+    yhat = Phi.dot(w)
 
     #########################################
 
@@ -62,8 +70,9 @@ def compute_L(yhat,y):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
-
+    # L = J(theta or w) = (1/2n) * (((ŷ1 - y1) + (ŷ2 - y2) + ... (ŷn - yn))^2) 
+    
+    L = np.mean((yhat-y)**2)/2
 
     #########################################
     return L 
@@ -84,8 +93,11 @@ def compute_dL_dw(y, yhat, Phi):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
-
+    # dl/dw = dJ(ŷ)/dw = (1/n) * ((((ŷ1(1)- y1(1)) + (ŷ2(1) - y2(1)) + ... (ŷd(1) - yd(1))) * xw1 +
+    #                              +   (ŷ1(2)- y1(2)) + (ŷ2(2) - y2(2)) + ... (ŷd(2) - yd(2))) * xw2 + ... 
+    #                              + (((ŷ1(n) - y1(n)) + (ŷ2(n) - y2(n)) + ... (ŷd(n) - yd(n))) * xwn
+    n = len(y)
+    dL_dw = (1/n)*Phi.T.dot(yhat - y)
 
     #########################################
     return dL_dw
@@ -106,14 +118,16 @@ def update_w(w, dL_dw, alpha = 0.001):
     
     #########################################
     ## INSERT YOUR CODE HERE
-
+    # w[j] := w[j] - alpha * dL_dw 
+    
+    w = w - (alpha*dL_dw)
 
     #########################################
     return w
 
 
 #--------------------------
-def train(X, Y, alpha=0.001, n_epoch=100):
+def train(X, Y, alpha=0.001, n_epoch=100):  
     '''
        Given a training dataset, train the linear regression model by iteratively updating the weights w using the gradient descent
         We repeat n_epoch passes over all the training instances.
@@ -135,14 +149,13 @@ def train(X, Y, alpha=0.001, n_epoch=100):
     ## INSERT YOUR CODE HERE
 
     # Back propagation: compute local gradients 
-        
 
+        yhat = compute_yhat(X, w)
+        dL_dw = compute_dL_dw(Y, yhat, X)
         
         
     # update the parameters w
-        
+        w = update_w(w, dL_dw, alpha)
 
-     #########################################
+    #########################################
     return w
-
-
